@@ -1,11 +1,11 @@
-;;; swig-mode.el --- 
+;;; swig-mode.el ---
 
 ;; Copyright 2006 Ye Wenbin
 ;;
 ;; Author: wenbinye@163.com
 ;; Time-stamp: <Ye Wenbin 2007-12-07 21:30:21>
 ;; Version: $Id: swig-mode.el,v 1.1.1.1 2007-03-13 13:16:10 ywb Exp $
-;; Keywords: 
+;; Keywords:
 ;; X-URL: not distributed yet
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,16 +24,17 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;; Put this file into your load-path and the following into your ~/.emacs:
 ;;   (require 'swig-mode)
 
 ;;; Code:
 
-(provide 'swig-mode)
 (eval-when-compile
   (require 'cl))
+
+(require 'tempo)
 
 
 ;;;;##########################################################################
@@ -75,7 +76,7 @@
  "Insert swig directive"
  'tempo-swig-tags)
 
-;;;###autoload 
+;;;###autoload
 (define-derived-mode swig-mode c++-mode "Swig"
   "Major mode for Asymptote."
   (local-set-key "{" 'swig-insert-paren)
@@ -92,8 +93,12 @@
         (backward-char 3))
     (call-interactively 'self-insert-command)))
 
-(add-hook 'swig-mode-hook
-          (lambda ()
-            (tempo-install nil 'tempo-swig-tags)))
+(defun swig-mode-install ()
+  "Install SWIG mode."
+  (tempo-use-tag-list 'tempo-swig-tags))
 
+(add-hook 'swig-mode-hook 'swig-mode-install)
+
+
+(provide 'swig-mode)
 ;;; swig-mode.el ends here
